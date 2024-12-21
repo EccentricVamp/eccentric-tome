@@ -66,6 +66,16 @@ public class TomeScreen extends Screen {
 
         var books = Tome.getModsBooks(tome).values().stream()
                 .flatMap(Collection::stream)
+                .sorted((book1, book2) -> {
+                    String name1 = book1.getHoverName().getString();
+                    String name2 = book2.getHoverName().getString();
+
+                    if (name1.equals(name2)) {
+                        return book1.getItem().toString().compareToIgnoreCase(book2.getItem().toString());
+                    }
+
+                    return name1.compareToIgnoreCase(name2);
+                })
                 .collect(Collectors.toList());
 
         var window = minecraft.getWindow();
@@ -75,12 +85,14 @@ public class TomeScreen extends Screen {
         var startX = window.getGuiScaledWidth() / 2 - booksPerRow * iconSize / 2;
         var startY = window.getGuiScaledHeight() / 2 - rows * iconSize + 45;
         var padding = 4;
+
         gui.fill(startX - padding, startY - padding,
                 startX + iconSize * booksPerRow + padding,
                 startY + iconSize * rows + padding, 0x22000000);
 
         this.book = null;
         var index = 0;
+
         for (var book : books) {
             if (book.is(Items.AIR))
                 continue;

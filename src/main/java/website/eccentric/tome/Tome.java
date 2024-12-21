@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -19,14 +20,28 @@ public class Tome {
         var mod = ModName.from(book);
         var books = modsBooks.get(mod);
         var registry = ForgeRegistries.ITEMS.getKey(book.getItem());
-        books.removeIf(b -> ForgeRegistries.ITEMS.getKey(b.getItem()).equals(registry));
+
+        books.removeIf(b -> b.getItem().equals(book.getItem()) &&
+                areTagsEqual(b.getTag(), book.getTag()));
 
         setModsBooks(book, modsBooks);
         Migration.setVersion(book);
         book.getOrCreateTag().putBoolean(Tag.IS_TOME, true);
         setHoverName(book);
 
+        copyEnchantments(tome, book);
+
         return book;
+    }
+
+    private static boolean areTagsEqual(@Nullable CompoundTag tag1, @Nullable CompoundTag tag2) {
+        if (tag1 == null && tag2 == null) {
+            return true;
+        }
+        if (tag1 == null || tag2 == null) {
+            return false;
+        }
+        return tag1.equals(tag2);
     }
 
     public static ItemStack revert(ItemStack book) {
@@ -35,6 +50,9 @@ public class Tome {
         var tome = new ItemStack(EccentricTome.TOME.get());
         copyMods(book, tome);
         Migration.setVersion(tome);
+
+        copyEnchantments(book, tome);
+
         clear(book);
 
         return tome;
@@ -44,8 +62,8 @@ public class Tome {
         var mod = ModName.from(book);
         var modsBooks = getModsBooks(tome);
 
-        var books = modsBooks.getOrDefault(mod, new ArrayList<ItemStack>());
-        books.add(book.copyWithCount(1));
+        var books = modsBooks.getOrDefault(mod, new ArrayList<>());
+        books.add(book.copy());
         modsBooks.put(mod, books);
 
         setModsBooks(tome, modsBooks);
@@ -108,5 +126,10 @@ public class Tome {
     private static void setHoverName(ItemStack book) {
         var name = book.getHoverName().copy().withStyle(ChatFormatting.GREEN);
         book.setHoverName(Component.translatable("eccentrictome.name", name));
+    }
+
+    private static void copyEnchantments(ItemStack source, ItemStack target) {
+        source.getEnchantmentTags();
+        target.getOrCreateTag().put("Enchantments", source.getEnchantmentTags().copy());
     }
 }

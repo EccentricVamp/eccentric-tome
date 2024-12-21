@@ -40,69 +40,20 @@ minecraft {
     }
 }
 
-// Testing
-// repositories {
-//     maven {
-//         url 'https://maven.blamejared.com'
-//         content {
-//             includeGroup 'vazkii.patchouli'
-//             includeGroup 'mezz.jei'
-//         }
-//     }
-//     maven {
-//         url 'https://cursemaven.com'
-//         content {
-//             includeGroup 'curse.maven'
-//         }
-//     }
-//     maven {
-//         url 'https://maven.blakesmods.com'
-//         content {
-//             includeGroup 'com.blakebr0.cucumber'
-//             includeGroup 'com.blakebr0.mysticalagriculture'
-//         }
-//     }
-//     maven {
-//         url 'https://nexus.twelveiterations.com/repository/maven-public'
-//         content {
-//             includeGroup 'net.blay09.mods'
-//         }
-//     }
-//     maven {
-//         url 'https://maven.pkg.github.com/CyclopsMC/packages'
-//         content {
-//             includeGroup 'org.cyclops.cyclopscore'
-//             includeGroup 'org.cyclops.evilcraft'
-//         }
-//         credentials {
-//             username System.getenv('GITHUB_ACTOR')
-//             password System.getenv('GITHUB_TOKEN')
-//         }
-//     }
-// }
+repositories {
+    maven {
+        url 'https://cursemaven.com'
+    }
+}
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    // Testing
-    // runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}")
-
-    // runtimeOnly fg.deobf("com.blakebr0.cucumber:Cucumber:${minecraft_version}-${cucumber_version}")
-    // runtimeOnly fg.deobf("com.blakebr0.mysticalagriculture:MysticalAgriculture:${minecraft_version}-${mystical_agriculture_version}")
-
-    // runtimeOnly fg.deobf("net.blay09.mods:balm-forge:${balm_version}+1.20")
-    // runtimeOnly fg.deobf("net.blay09.mods:cookingforblockheads-forge:${cfb_version}+1.20")
-
-    // runtimeOnly fg.deobf("org.cyclops.cyclopscore:cyclopscore:${minecraft_version}-${cyclopscore_version}")
-    // runtimeOnly fg.deobf("org.cyclops.evilcraft:evilcraft:${minecraft_version}-${evilcraft_version}")
-
-    // runtimeOnly fg.deobf('curse.maven:placebo-283644:4036338')
-    // runtimeOnly fg.deobf('curse.maven:apotheosis-313970:4048780')
-
-    // Compile against the JEI API but do not include it at runtime
-    // compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
-    // compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
-    // runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+    runtimeOnly fg.deobf("curse.maven:jei-238222:5846810")
+    runtimeOnly fg.deobf("curse.maven:botania-225643:5594997")
+    runtimeOnly fg.deobf("curse.maven:mystical-agriculture-246640:5777070")
+    runtimeOnly fg.deobf("curse.maven:cucumber-272335:5714571")
+    runtimeOnly fg.deobf("curse.maven:curios-309927:5843594")
+    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4966125")
 }
 
 processResources {

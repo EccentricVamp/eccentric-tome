@@ -13,6 +13,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Comparator;
+
 public class AttachmentRecipe extends CustomRecipe {
     public AttachmentRecipe(ResourceLocation location, CraftingBookCategory category) {
         super(location, category);
@@ -58,14 +60,14 @@ public class AttachmentRecipe extends CustomRecipe {
                 continue;
 
             if (stack.getItem() instanceof TomeItem)
-                tome = stack;
+                tome = stack.copy();
             else
-                target = stack;
+                target = stack.copy();
         }
 
-        tome = tome.copy();
+        tome = Tome.attach(tome, target);
 
-        return Tome.attach(tome, target);
+        return tome;
     }
 
     @Override
