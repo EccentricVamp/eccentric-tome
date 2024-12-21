@@ -55,7 +55,8 @@ public class Configuration {
                                 "iceandfire:bestiary",
                                 "rootsclassic:runic_tablet",
                                 "enigmaticlegacy:the_acknowledgment",
-                                "ad_astra:astrodux"),
+                                "ad_astra:astrodux",
+                                "wizards_reborn:arcanemicon"),
                         Validator::isStringResource);
 
         NAMES = BUILDER
